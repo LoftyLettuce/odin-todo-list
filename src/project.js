@@ -1,8 +1,10 @@
 import {todoItem} from "./todoItem"
+import { addDays } from "date-fns";
 export class project {
-  constructor(name, date) {
+  constructor(name, startDate, dueDate) {
     this.name = name;
-    this.dueDate = date;
+    this.startDate = startDate;
+    this.dueDate = dueDate;
     this.toDoList = new Array();
   }
   addItem(title, content, priority) {
