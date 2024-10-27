@@ -1,10 +1,10 @@
 export class todoItem
 {
   #title; #priority; #completed; #content;
-  constructor(title, content, priority){
-    this.#title = title;
-    this.#content = content;
-    this.#priority = priority;
+  constructor(itemInfo){
+    this.#title = itemInfo.title;
+    this.#content = itemInfo.content;
+    this.#priority = itemInfo.priority;
     this.#completed = false;
   }
   getContent() {

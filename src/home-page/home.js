@@ -10,18 +10,23 @@ function displayProject(project){
     const p = document.createElement("p");
     p.textContent = "Days left: " + differenceInDays(project.dueDate, new Date());
     closeBtn.textContent = "x";
-    closeBtn.addEventListener("click", function(){
+    closeBtn.addEventListener("click", function(e){
       container.remove();
       //remove project from projectlist
-      projectList.splice(projectList.indexOf(project), 1);
+      try{
+        projectList.splice(projectList.indexOf(project), 1);
+      }
+      catch(e){
+        console.log(e);
+      }
+      localStorage.removeItem(project.name);
+      e.stopPropagation();
     })
     container.addEventListener("click", function(){
       projectPage.display(project);
     })
     title.textContent = project.name;
-    container.appendChild(title);
-    container.appendChild(closeBtn);
-    container.appendChild(p);
+    container.append(title, closeBtn, p);
     console.log(`${project.name} : ${project.todoList}`);
     return container;
 }
@@ -77,8 +82,15 @@ function createForm(){
     const root = document.querySelector("div[class='home']");
     const inputList = dialog.querySelectorAll("input");
     const priority = document.querySelector("input[name='priority']:checked");
+    ///name, startdate, duedate
     const newProject = new project(inputList[0].value, inputList[1].value, inputList[2].value);
     projectList.push(newProject);
+    try {
+      localStorage.setItem(inputList[0].value, JSON.stringify(newProject.getStorageInfo()));
+    }
+    catch(e) {
+      console.log(e);
+    }
     priority.checked = false;
     // reset
     inputList.forEach(function(input){
@@ -86,10 +98,8 @@ function createForm(){
     })
     root.appendChild(displayProject(newProject));
   })
-  form.appendChild(addBtn);
-  form.appendChild(cancelBtn);
-  dialog.appendChild(h1);
-  dialog.appendChild(form);
+  form.append(addBtn, cancelBtn);
+  dialog.append(h1, form);
   return dialog;
 }
 
@@ -102,6 +112,31 @@ export const homePage = function(){
     root.appendChild(createForm());
     root.className = "home";
     //display
+    let storageLength;
+    try 
+    {
+      storageLength = localStorage.length;
+    }
+    catch(e)
+    {
+      storageLength = 0;
+    }
+    for (let i = 0; i < storageLength; i++)
+    {
+      try {
+        let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        console.log(projectInfo.toDoList);
+        let newProject = new project(projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
+        projectInfo.toDoList.forEach((item)=>{
+          newProject.addItem(item);
+        });
+        projectList.push(newProject);
+      }
+      catch(e)
+      {
+        console.log(e);
+      }
+    }
     projectList.forEach(function(project){
       root.appendChild(displayProject(project));
     })

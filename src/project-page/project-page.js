@@ -1,4 +1,5 @@
 import { itemPage } from "../item-page/item-page";
+import { todoItem } from "../todoItem";
 export const projectPage = function(){
   function display(project){
     //remove all elements in the previous page
@@ -21,10 +22,10 @@ export const projectPage = function(){
       const itemInfo = item.getContent();
       root.appendChild(createContainer(itemInfo))
     }
-    project.toDoList.forEach((item)=>{itemDisplay(item)});
-    itemDisplay(project.addItem("title", "content", "priority"));
-    itemDisplay(project.addItem("title2", "content2", "priority2"));
-    itemDisplay(project.addItem("title3", "content3", "priority3"));
+    project.toDoList.forEach((item)=>{itemDisplay(new todoItem(item))});
+    itemDisplay(new todoItem(project.addItem("title", "content", "priority")));
+    itemDisplay(new todoItem(project.addItem("title2", "content2", "priority2")));
+    itemDisplay(new todoItem(project.addItem("title3", "content3", "priority3")));
   }
   return {display};
 }();
