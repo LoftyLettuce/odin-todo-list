@@ -1,10 +1,11 @@
 export class todoItem
 {
-  #title; #priority; #completed; #content;
+  #title; #priority; #completed; #parent; #content;
   constructor(itemInfo){
     this.#title = itemInfo.title;
     this.#content = itemInfo.content;
     this.#priority = itemInfo.priority;
+    this.#parent = itemInfo.parent;
     this.#completed = false;
   }
   getContent() {
@@ -12,6 +13,7 @@ export class todoItem
       title : this.#title, 
       content : this.#content, 
       priority : this.#priority,
+      parent: this.#parent,
     };    
   }
   get completeStatus() {

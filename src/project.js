@@ -11,7 +11,7 @@ export class project {
     return {name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList};
   }
   addItem(title, content, priority) {
-    const newItem = {title, content, priority};
+    const newItem = {title, content, priority, parent: this};
     this.toDoList.push(newItem);
     return newItem;
   }

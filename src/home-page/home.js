@@ -3,6 +3,31 @@ import { add, differenceInDays } from "date-fns";
 import { project } from "../project";
 import { projectPage } from "../project-page/project-page"
 const projectList = new Array();
+let storageLength;
+try 
+{
+  storageLength = localStorage.length;
+}
+catch(e)
+{
+  storageLength = 0;
+}
+for (let i = 0; i < storageLength; i++)
+{
+  try {
+    let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
+    console.log(projectInfo.toDoList);
+    let newProject = new project(projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
+    projectInfo.toDoList.forEach((item)=>{
+      newProject.addItem(item);
+    });
+    projectList.push(newProject);
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+}
 function displayProject(project){
     const container = document.createElement("div");
     const title = document.createElement("h1");
@@ -106,37 +131,16 @@ function createForm(){
 export const homePage = function(){
   function display()
   {
-    const root = document.querySelector("div");
-    const addBtn = document.createElement("button");
+    //reset
+    let root = document.querySelector("body>div");
+    root.remove();
     // add Modal
+    root = document.createElement('div');
     root.appendChild(createForm());
+    document.querySelector('body').appendChild(root);
     root.className = "home";
+    const addBtn = document.createElement("button");
     //display
-    let storageLength;
-    try 
-    {
-      storageLength = localStorage.length;
-    }
-    catch(e)
-    {
-      storageLength = 0;
-    }
-    for (let i = 0; i < storageLength; i++)
-    {
-      try {
-        let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        console.log(projectInfo.toDoList);
-        let newProject = new project(projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
-        projectInfo.toDoList.forEach((item)=>{
-          newProject.addItem(item);
-        });
-        projectList.push(newProject);
-      }
-      catch(e)
-      {
-        console.log(e);
-      }
-    }
     projectList.forEach(function(project){
       root.appendChild(displayProject(project));
     })
