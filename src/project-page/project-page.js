@@ -18,15 +18,15 @@ export const projectPage = function(){
     function createContainer(itemInfo){
       let container = document.createElement('div');
       container.textContent = `${itemInfo.title}: ${itemInfo.content}`;
-      container.addEventListener("click", function(){
-        itemPage.display(itemInfo);
-      })
       return container;
     }
     function itemDisplay(item){
-      item.setProperty("hehe");
       const itemInfo = item.getContent();
-      root.appendChild(createContainer(itemInfo))
+      const container = createContainer(itemInfo)
+      container.addEventListener("click", function(){
+        itemPage.display(item);
+      })
+      root.appendChild(container);
     }
     project.toDoList.forEach((item)=>{itemDisplay(new todoItem(item))});
     itemDisplay(new todoItem(project.addItem("title", "content", "priority")));

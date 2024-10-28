@@ -3,6 +3,11 @@
   margin: 0;
   padding: 0;
 }
+button
+{
+  width: 20px;
+  height: 20px;
+}
 body
 {
   min-height: 100vh;
