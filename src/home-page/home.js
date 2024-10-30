@@ -16,11 +16,8 @@ for (let i = 0; i < storageLength; i++)
 {
   try {
     let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    console.log(projectInfo.toDoList);
     let newProject = new project(projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
-    projectInfo.toDoList.forEach((item)=>{
-      newProject.addItem(item);
-    });
+    newProject.toDoList = projectInfo.toDoList;
     projectList.push(newProject);
   }
   catch(e)

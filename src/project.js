@@ -11,11 +11,23 @@ export class project {
     return {name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList};
   }
   addItem(title, content, priority) {
-    const newItem = {title, content, priority, parent: this, id: this.toDoList.length};
+    const newItem = {title, content, priority, id: this.toDoList.length};
     this.toDoList.push(newItem);
+    try {
+      localStorage.setItem(this.name, JSON.stringify({name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList}));
+    }
+    catch(e) {
+      console.log(e);
+    }
     return newItem;
   }
   removeItem(target) {
     this.toDoList.splice(this.toDoList.indexOf(target), 1);
+    try {
+      localStorage.setItem(this.name, JSON.stringify(this.getStorageInfo()));
+    }
+    catch(e) {
+      console.log(e);
+    }
   }
 };

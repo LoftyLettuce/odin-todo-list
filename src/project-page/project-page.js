@@ -28,10 +28,16 @@ export const projectPage = function(){
       })
       root.appendChild(container);
     }
-    project.toDoList.forEach((item)=>{itemDisplay(new todoItem(item))});
-    itemDisplay(new todoItem(project.addItem("title", "content", "priority")));
-    itemDisplay(new todoItem(project.addItem("title2", "content2", "priority2")));
-    itemDisplay(new todoItem(project.addItem("title3", "content3", "priority3")));
+    project.toDoList.forEach((item)=>{
+      const itemWithParent = Object.assign({}, item, {parent: project,});
+      itemDisplay(new todoItem(itemWithParent));
+    });
+    //add new item
+    const addButton = document.createElement('button');
+    addButton.addEventListener('click', ()=>{
+      itemPage.display(new todoItem({title:"", content:"", priority:"", parent: project, id: 0}));
+    })
+    root.appendChild(addButton);
   }
   return {display};
 }();
