@@ -19,6 +19,12 @@ export const projectPage = function(){
     function createContainer(itemInfo){
       let container = document.createElement('div');
       container.textContent = `${itemInfo.title}: ${itemInfo.content}`;
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = "remove";
+      removeBtn.addEventListener('click', ()=>{
+        itemInfo.parent.removeItem(itemInfo.id);
+      })
+      container.appendChild(removeBtn);
       return container;
     }
     //add edit button

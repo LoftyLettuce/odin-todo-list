@@ -7,6 +7,7 @@ export class project {
     this.startDate = startDate;
     this.dueDate = dueDate;
     this.toDoList = new Array();
+    this.idGenerator = 0;
   }
   saveToLocal(){
     try {
@@ -25,13 +26,14 @@ export class project {
     this.saveToLocal();
   }
   addItem(title, content, priority) {
-    const newItem = {title, content, priority, id: this.toDoList.length};
+    const newItem = {title, content, priority, id: this.idGenerator};
+    this.idGenerator++;
     this.toDoList.push(newItem);
     this.saveToLocal();
     return newItem;
   }
   removeItem(target) {
-    this.toDoList.splice(this.toDoList.indexOf(target), 1);
+    this.toDoList.splice(this.toDoList.indexOf(this.toDoList.find((item)=>item.id == target)), 1);
     this.saveToLocal();
   }
 };

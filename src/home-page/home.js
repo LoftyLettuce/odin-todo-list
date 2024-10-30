@@ -7,6 +7,7 @@ let storageLength;
 try 
 {
   storageLength = localStorage.length;
+  if (localStorage.idGenerator == null){localStorage.idGenerator = 0;}
 }
 catch(e)
 {
@@ -16,7 +17,8 @@ for (let i = 0; i < storageLength; i++)
 {
   try {
     let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    let newProject = new project(i, projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
+    let newProject = new project(localStorage.idGenerator, projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
+    localStorage.idGenerator++;
     newProject.toDoList = projectInfo.toDoList;
     projectList.push(newProject);
   }
