@@ -16,7 +16,7 @@ for (let i = 0; i < storageLength; i++)
 {
   try {
     let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    let newProject = new project(projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
+    let newProject = new project(i, projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
     newProject.toDoList = projectInfo.toDoList;
     projectList.push(newProject);
   }
@@ -36,12 +36,12 @@ function displayProject(project){
       container.remove();
       //remove project from projectlist
       try{
-        projectList.splice(projectList.indexOf(project), 1);
+        localStorage.removeItem(project.id);
       }
       catch(e){
         console.log(e);
       }
-      localStorage.removeItem(project.name);
+      projectList.splice(projectList.indexOf(project), 1);
       e.stopPropagation();
     })
     container.addEventListener("click", function(){
@@ -105,10 +105,10 @@ function createForm(){
     const inputList = dialog.querySelectorAll("input");
     const priority = document.querySelector("input[name='priority']:checked");
     ///name, startdate, duedate
-    const newProject = new project(inputList[0].value, inputList[1].value, inputList[2].value);
+    const newProject = new project(projectList.length, inputList[0].value, inputList[1].value, inputList[2].value);
     projectList.push(newProject);
     try {
-      localStorage.setItem(inputList[0].value, JSON.stringify(newProject.getStorageInfo()));
+      localStorage.setItem(localStorage.length, JSON.stringify(newProject.getStorageInfo()));
     }
     catch(e) {
       console.log(e);

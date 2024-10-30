@@ -10,6 +10,7 @@ export const projectPage = function(){
     root = document.createElement('div');
     root.className = 'project-page';
     document.querySelector('body').appendChild(root);
+    //add back button
     const backButton = document.createElement('button');
     backButton.addEventListener('click', ()=>{
       homePage.display();
@@ -20,6 +21,19 @@ export const projectPage = function(){
       container.textContent = `${itemInfo.title}: ${itemInfo.content}`;
       return container;
     }
+    //add edit button
+    const titleBox = document.createElement('input');
+    titleBox.value = project.name;
+    titleBox.required = true;
+    const editBtn = document.createElement('button');
+    editBtn.textContent = "Edit";
+    editBtn.addEventListener('click', ()=>{
+      if (!titleBox.checkValidity()){return;}
+      project.setProperties(titleBox.value);
+      homePage.display();
+    })
+    root.appendChild(titleBox);
+    root.appendChild(editBtn);
     function itemDisplay(item){
       const itemInfo = item.getContent();
       const container = createContainer(itemInfo)
