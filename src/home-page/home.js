@@ -7,7 +7,7 @@ let storageLength;
 try 
 {
   storageLength = localStorage.length;
-  if (localStorage.idGenerator == null){localStorage.idGenerator = 0;}
+  localStorage.idGenerator = 0;
 }
 catch(e)
 {
@@ -16,6 +16,7 @@ catch(e)
 for (let i = 0; i < storageLength; i++)
 {
   try {
+    if (localStorage.key(i) == "idGenerator"){continue;}
     let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
     let newProject = new project(localStorage.idGenerator, projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
     localStorage.idGenerator++;
@@ -107,10 +108,11 @@ function createForm(){
     const inputList = dialog.querySelectorAll("input");
     const priority = document.querySelector("input[name='priority']:checked");
     ///name, startdate, duedate
-    const newProject = new project(projectList.length, inputList[0].value, inputList[1].value, inputList[2].value);
+    const newProject = new project(localStorage.idGenerator, inputList[0].value, inputList[1].value, inputList[2].value);
     projectList.push(newProject);
     try {
-      localStorage.setItem(localStorage.length, JSON.stringify(newProject.getStorageInfo()));
+      localStorage.idGenerator++;
+      localStorage.setItem(newProject.id, JSON.stringify(newProject.getStorageInfo()));
     }
     catch(e) {
       console.log(e);

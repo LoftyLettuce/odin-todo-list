@@ -11,6 +11,7 @@ export class project {
   }
   saveToLocal(){
     try {
+      console.log(this.id)
       localStorage.setItem(this.id, JSON.stringify({name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList}));
     }
     catch(e) {

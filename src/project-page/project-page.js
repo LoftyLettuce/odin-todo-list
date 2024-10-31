@@ -16,17 +16,6 @@ export const projectPage = function(){
       homePage.display();
     })
     root.appendChild(backButton);
-    function createContainer(itemInfo){
-      let container = document.createElement('div');
-      container.textContent = `${itemInfo.title}: ${itemInfo.content}`;
-      const removeBtn = document.createElement('button');
-      removeBtn.textContent = "remove";
-      removeBtn.addEventListener('click', ()=>{
-        itemInfo.parent.removeItem(itemInfo.id);
-      })
-      container.appendChild(removeBtn);
-      return container;
-    }
     //add edit button
     const titleBox = document.createElement('input');
     titleBox.value = project.name;
@@ -40,6 +29,21 @@ export const projectPage = function(){
     })
     root.appendChild(titleBox);
     root.appendChild(editBtn);
+    //display toDoItem
+    function createContainer(itemInfo){
+      let container = document.createElement('div');
+      container.textContent = `${itemInfo.title}: ${itemInfo.content}`;
+      //add remove item
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = "remove";
+      removeBtn.addEventListener('click', (e)=>{
+        itemInfo.parent.removeItem(itemInfo.id);
+        container.remove();
+        e.stopPropagation();
+      })
+      container.appendChild(removeBtn);
+      return container;
+    }
     function itemDisplay(item){
       const itemInfo = item.getContent();
       const container = createContainer(itemInfo)
