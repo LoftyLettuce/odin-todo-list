@@ -1,20 +1,14 @@
 import { itemPage } from "../item-page/item-page";
 import { todoItem } from "../todoItem";
-import { homePage } from "../home-page/home";
 export const projectPage = function(){
   function display(project){
     //remove all elements in the previous page
-    let root = document.querySelector("body>div");
+    let root = document.querySelector("body .content");
     root.remove();
     //add new page
     root = document.createElement('div');
-    root.className = 'project-page';
+    root.className = 'content';
     document.querySelector('body').appendChild(root);
-    //add back button
-    const backButton = document.createElement('button');
-    backButton.addEventListener('click', ()=>{
-      homePage.display();
-    })
     root.appendChild(backButton);
     //add edit button
     const titleBox = document.createElement('input');
@@ -25,7 +19,6 @@ export const projectPage = function(){
     editBtn.addEventListener('click', ()=>{
       if (!titleBox.checkValidity()){return;}
       project.setProperties(titleBox.value);
-      homePage.display();
     })
     root.appendChild(titleBox);
     root.appendChild(editBtn);

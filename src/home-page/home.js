@@ -132,24 +132,25 @@ function createForm(){
 export const homePage = function(){
   function display()
   {
-    //reset
-    let root = document.querySelector("body>div");
-    root.remove();
     // add Modal
-    root = document.createElement('div');
+    let root = document.createElement('div');
     root.appendChild(createForm());
     document.querySelector('body').appendChild(root);
     root.className = "home";
+    const content = document.createElement('div');
+    document.querySelector('body').appendChild(content);
+    content.className = 'content';
     const addBtn = document.createElement("button");
-    //display
-    projectList.forEach(function(project){
-      root.appendChild(displayProject(project));
-    })
+    //add Add Button
     addBtn.textContent = "Add";
     addBtn.addEventListener("click", function(){
       document.querySelector("dialog").showModal();
     })
     root.appendChild(addBtn);
+    //display
+    projectList.forEach(function(project){
+      root.appendChild(displayProject(project));
+    })
   };
   return {display};
 }();

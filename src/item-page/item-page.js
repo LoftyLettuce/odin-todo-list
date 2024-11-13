@@ -2,11 +2,11 @@ import { projectPage } from "../project-page/project-page";
 export const itemPage = function(){
   function display(item){
     //remove all elements in the previous page
-    let root = document.querySelector("body>div");
+    let root = document.querySelector("body .content");
     root.remove();
     //add new page
     root = document.createElement('div');
-    root.className = 'item-page';
+    root.className = 'content';
     document.querySelector('body').appendChild(root);
     const itemInfo = item.getContent();
     console.log(itemInfo);
