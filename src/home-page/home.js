@@ -33,6 +33,7 @@ function displayProject(project){
     const title = document.createElement("h1");
     const closeBtn = document.createElement("button");
     const p = document.createElement("p");
+    container.id = project.id;
     p.textContent = "Days left: " + differenceInDays(project.dueDate, new Date());
     closeBtn.textContent = "x";
     closeBtn.addEventListener("click", function(e){
@@ -133,7 +134,7 @@ export const homePage = function(){
   function display()
   {
     // add Modal
-    let root = document.createElement('div');
+    const root = document.createElement('div');
     root.appendChild(createForm());
     document.querySelector('body').appendChild(root);
     root.className = "home";
@@ -152,5 +153,10 @@ export const homePage = function(){
       root.appendChild(displayProject(project));
     })
   };
-  return {display};
+  function update(project)
+  {
+    const projectElement = document.getElementById(project.id);
+    projectElement.querySelector('h1').textContent = project.name;
+  };
+  return {display, update};
 }();

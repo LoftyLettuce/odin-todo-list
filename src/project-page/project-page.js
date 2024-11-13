@@ -1,3 +1,4 @@
+import { homePage } from "../home-page/home";
 import { itemPage } from "../item-page/item-page";
 import { todoItem } from "../todoItem";
 export const projectPage = function(){
@@ -9,7 +10,6 @@ export const projectPage = function(){
     root = document.createElement('div');
     root.className = 'content';
     document.querySelector('body').appendChild(root);
-    root.appendChild(backButton);
     //add edit button
     const titleBox = document.createElement('input');
     titleBox.value = project.name;
@@ -19,6 +19,7 @@ export const projectPage = function(){
     editBtn.addEventListener('click', ()=>{
       if (!titleBox.checkValidity()){return;}
       project.setProperties(titleBox.value);
+      homePage.update(project);
     })
     root.appendChild(titleBox);
     root.appendChild(editBtn);
