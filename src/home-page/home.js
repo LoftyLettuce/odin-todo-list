@@ -7,27 +7,34 @@ let storageLength;
 try 
 {
   storageLength = localStorage.length;
-  localStorage.idGenerator = 0;
 }
 catch(e)
 {
   storageLength = 0;
 }
-for (let i = 0; i < storageLength; i++)
-{
-  try {
-    if (localStorage.key(i) == "idGenerator"){continue;}
-    let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    let newProject = new project(localStorage.idGenerator, projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
-    localStorage.idGenerator++;
-    newProject.toDoList = projectInfo.toDoList;
-    projectList.push(newProject);
-  }
-  catch(e)
+(function displayLocalProject(){
+  let highestIdValue = -1;
+  for (let i = 0; i < storageLength; i++)
   {
-    console.log(e);
+    try {
+      if (localStorage.key(i) == "idGenerator"){continue;}
+      let projectInfo = JSON.parse(localStorage.getItem(localStorage.key(i)));
+      let newProject = new project(localStorage.key(i), projectInfo.name, projectInfo.startDate, projectInfo.dueDate);
+      newProject.toDoList = projectInfo.toDoList;
+      projectList.push(newProject);
+      if (highestIdValue < newProject.id)
+      {
+        highestIdValue = newProject.id;
+      }
+    }
+    catch(e)
+    {
+      console.log(e);
+    }
   }
-}
+  localStorage.idGenerator = highestIdValue++;
+})();
+
 function displayProject(project){
     const container = document.createElement("div");
     const title = document.createElement("h1");
@@ -40,6 +47,7 @@ function displayProject(project){
       container.remove();
       //remove project from projectlist
       try{
+        console.log(project.id);
         localStorage.removeItem(project.id);
       }
       catch(e){
