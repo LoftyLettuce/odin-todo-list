@@ -1,5 +1,5 @@
 import "./style.css"
-import { add, differenceInDays } from "date-fns";
+import { add, differenceInDays, format } from "date-fns";
 import { project } from "../project";
 import { projectPage } from "../project-page/project-page"
 const projectList = new Array();
@@ -71,7 +71,7 @@ function newInput(type, name, title, id, required, hasValue, value="")
     input.value = value;
   }
   label.appendChild(input);
-  return label;
+  return {label: label, input: input};
 }
 function createForm(){
   const dialog = document.createElement("dialog");
@@ -83,15 +83,40 @@ function createForm(){
   const cancelBtn = document.createElement("button");
   h1.textContent = "New Project";
   form.method = "dialog";
-  form.appendChild(newInput("text", "Name", "Name: ", "name", true, false));
-  form.appendChild(newInput("date", "start", "Day start: ", "start", true, false));
-  form.appendChild(newInput("date", "due", "Day due: ", "due", true, false));
+  form.appendChild(newInput("text", "Name", "Name: ", "name", true, false).label);
+  const startDay = newInput("date", "start", "Day start: ", "start", true, false);
+  const dueDate = newInput("date", "due", "Day due: ", "due", true, false);
+  dueDate.input.disabled = true;
+  const today = new Date();
+  startDay.input.setAttribute('min', format(today, 'yyyy-MM-dd'));
+  startDay.input.addEventListener('input', ()=>{
+    console.log(startDay.input.value)
+    if (startDay.input.value != null)
+    {
+      if (dueDate.input.value != null && new Date(startDay.input.value) > new Date(dueDate.input.value))
+      {  
+        dueDate.input.value = null;
+      }
+      else if (dueDate.input.disabled)
+      {
+        dueDate.input.setAttribute('min', startDay.input.value);
+        dueDate.input.disabled = false;
+      }
+    }
+    if (startDay.input.value == null || startDay.input.value == "")
+    {
+      dueDate.input.disabled = true;
+      dueDate.input.value = null
+    }
+  })
+  form.appendChild(startDay.label);
+  form.appendChild(dueDate.label);
   form.appendChild(fieldset);
   legend.textContent = "Priority";
   fieldset.appendChild(legend);
-  fieldset.appendChild(newInput("radio", "priority", "super important", "superImportant", true, true, 1));
-  fieldset.appendChild(newInput("radio", "priority", "important", "important", true, true, 0));
-  fieldset.appendChild(newInput("radio", "priority", "not that important", "notThatImportant", true, true, -1));
+  fieldset.appendChild(newInput("radio", "priority", "super important", "superImportant", true, true, 1).label);
+  fieldset.appendChild(newInput("radio", "priority", "important", "important", true, true, 0).label);
+  fieldset.appendChild(newInput("radio", "priority", "not that important", "notThatImportant", true, true, -1).label);
   addBtn.textContent = "Add";
   addBtn.type = "submit";
   addBtn.value = "add";
@@ -108,8 +133,11 @@ function createForm(){
     const root = document.querySelector("div[class='home']");
     const inputList = dialog.querySelectorAll("input");
     const priority = document.querySelector("input[name='priority']:checked");
+    const nameProject = inputList[0].value, dueDateValue  = inputList[1].value, startDateValue = inputList[2].value;
+    //Check date validity
+    if (dueDateValue < today || startDateValue < today) {return;} 
     ///name, startdate, duedate
-    const newProject = new project(localStorage.idGenerator, inputList[0].value, inputList[1].value, inputList[2].value);
+    const newProject = new project(localStorage.idGenerator, nameProject, startDateValue, dueDateValue);
     projectList.push(newProject);
     try {
       localStorage.idGenerator++;

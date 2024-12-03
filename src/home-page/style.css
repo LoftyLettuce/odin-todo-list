@@ -60,8 +60,11 @@ body .home
 dialog
 {
   position: absolute;
-  margin: auto;
-  top: 20vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  border-radius: 10px;
   width: 60%;
 }
 dialog>h1
@@ -101,6 +104,7 @@ form fieldset
 dialog::backdrop
 {
   background-color: black;
+  opacity: 50%;
 }
 fieldset>label
 {
