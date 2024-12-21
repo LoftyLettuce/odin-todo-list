@@ -1,4 +1,5 @@
-import { homePage } from "../home-page/home";
+import { homePage, createForm } from "../home-page/home";
+import { parse } from "date-fns";
 import { itemPage } from "../item-page/item-page";
 import { todoItem } from "../todoItem";
 export const projectPage = function(){
@@ -19,10 +20,32 @@ export const projectPage = function(){
     editBtn.addEventListener('click', ()=>{
       if (!titleBox.checkValidity()){return;}
       project.setProperties(titleBox.value);
-      homePage.update(project);
+
+      const dialog = document.createElement('dialog');
+      dialog.className = 'dialog';
+      const form = createForm();
+      const inputs = form.querySelectorAll('input');
+      inputs[0].value = project.name;
+      inputs[1].value = new Date(project.startDate);
+      inputs[2].value = new Date(project.dueDate);
+      dialog.appendChild(form);
+      for (let i = 0; i < 2; i++)
+      {
+        dialog.appendChild(document.createElement('button'));
+      }
+      const buttons = dialog.querySelectorAll('button');
+      buttons[0].addEventListener('click', () => {
+        dialog.remove();
+      })
+      buttons[1].addEventListener('click', () => {
+        project.setProperties(inputs[0].value, inputs[1].value, inputs[2].value);
+        homePage.update(project);
+        dialog.remove();
+      })
+      root.appendChild(dialog);
+      dialog.showModal();
     })
-    root.appendChild(titleBox);
-    root.appendChild(editBtn);
+    root.append(titleBox, editBtn);
     //display toDoItem
     function createContainer(itemInfo){
       let container = document.createElement('div');

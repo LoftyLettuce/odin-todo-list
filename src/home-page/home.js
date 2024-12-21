@@ -49,7 +49,7 @@ function displayProject(project){
     const lines = Array.from(projectInfoDisplay.children);
     lines[0].textContent = `Starting from: ${project.startDate}`;
     lines[1].textContent = `End in: ${project.dueDate}`;
-    lines[2].textContent = "Days left: " + differenceInDays(project.startDate, project.dueDate);
+    lines[2].textContent = "Days left: " + differenceInDays(project.dueDate, project.startDate);
     closeBtn.textContent = "x";
     closeBtn.addEventListener("click", function(e){
       container.remove();
@@ -89,22 +89,15 @@ function newInput(type, name, title, id, required, hasValue, value="")
   return {label: label, input: input};
 }
 function createForm(){
-  const dialog = document.createElement("dialog");
-  dialog.className = 'dialog';
-  const h1 = document.createElement("h1");
   const form = document.createElement("form");
   const fieldset = document.createElement("fieldset");
   const legend = document.createElement("legend");
-  const addBtn = document.createElement("button");
-  const cancelBtn = document.createElement("button");
-  h1.textContent = "New Project";
   form.method = "dialog";
   form.appendChild(newInput("text", "Name", "Name: ", "name", true, false).label);
   const startDay = newInput("date", "start", "Day start: ", "start", true, false);
   const dueDate = newInput("date", "due", "Day due: ", "due", true, false);
   dueDate.input.disabled = true;
-  const today = new Date();
-  startDay.input.setAttribute('min', format(today, 'yyyy-MM-dd'));
+  startDay.input.setAttribute('min', format(new Date(), 'yyyy-MM-dd'));
   startDay.input.addEventListener('input', ()=>{
     console.log(startDay.input.value)
     if (startDay.input.value != null)
@@ -133,6 +126,18 @@ function createForm(){
   fieldset.appendChild(newInput("radio", "priority", "super important", "superImportant", true, true, 1).label);
   fieldset.appendChild(newInput("radio", "priority", "important", "important", true, true, 0).label);
   fieldset.appendChild(newInput("radio", "priority", "not that important", "notThatImportant", true, true, -1).label);
+  return form;
+}
+function createDialog()
+{
+  const dialog = document.createElement("dialog");
+  dialog.className = 'dialog';
+  const h1 = document.createElement("h1");
+  h1.textContent = "New Project";
+  const form = createForm();
+  //add button
+  const addBtn = document.createElement("button");
+  const cancelBtn = document.createElement("button");
   addBtn.textContent = "Add";
   addBtn.type = "submit";
   addBtn.value = "add";
@@ -143,13 +148,15 @@ function createForm(){
     dialog.returnValue = "cancel";
     dialog.close();
   })
+
   dialog.addEventListener("close", function(e){
     if (e.target.returnValue == "cancel"){return;}
     // add new project
+    const today = new Date();
     const root = document.querySelector("div[class='home']");
     const inputList = dialog.querySelectorAll("input");
     const priority = document.querySelector("input[name='priority']:checked");
-    const nameProject = inputList[0].value, dueDateValue  = inputList[1].value, startDateValue = inputList[2].value;
+    const nameProject = inputList[0].value, startDateValue  = inputList[1].value, dueDateValue = inputList[2].value;
     //Check date validity
     if (dueDateValue < today || startDateValue < today) {return;} 
     ///name, startdate, duedate
@@ -167,19 +174,19 @@ function createForm(){
     inputList.forEach(function(input){
       input.value = null;
     })
-    root.appendChild(displayProject(newProject));
+    root.appendChild(displayProject(newProject))
   })
-  form.append(addBtn, cancelBtn);
   dialog.append(h1, form);
+  form.append(addBtn, cancelBtn);
   return dialog;
 }
-
+export {createForm};
 export const homePage = function(){
   function display()
   {
-    // add Modal
+    // add dialog
     const root = document.createElement('div');
-    root.appendChild(createForm());
+    root.appendChild(createDialog());
     document.querySelector('body').appendChild(root);
     root.className = "home";
     const content = document.createElement('div');
@@ -201,6 +208,10 @@ export const homePage = function(){
   {
     const projectElement = document.getElementById(project.id);
     projectElement.querySelector('h1').textContent = project.name;
+    const lines = projectElement.querySelector('ul').children;
+    lines[0].textContent = `Starting from: ${project.startDate}`;
+    lines[1].textContent = `End in: ${project.dueDate}`;
+    lines[2].textContent = "Days left: " + differenceInDays(project.dueDate, project.startDate);
   };
   return {display, update};
 }();

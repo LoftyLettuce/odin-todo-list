@@ -11,7 +11,6 @@ export class project {
   }
   saveToLocal(){
     try {
-      console.log(this.id)
       localStorage.setItem(this.id, JSON.stringify({name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList}));
     }
     catch(e) {
@@ -21,9 +20,11 @@ export class project {
   getStorageInfo(){
     return {name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList};
   }
-  setProperties(name)
+  setProperties(name, startDate, dueDate)
   {
     this.name = name;
+    this.startDate = startDate;
+    this.dueDate = dueDate;
     this.saveToLocal();
   }
   addItem(title, content, priority) {
