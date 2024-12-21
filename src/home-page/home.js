@@ -63,6 +63,11 @@ function displayProject(project){
       }
       projectList.splice(projectList.indexOf(project), 1);
       e.stopPropagation();
+      function reset(){
+        let root = document.querySelector("body .content");
+        root.remove();
+      }
+      reset();
     })
     container.addEventListener("click", function(){
       projectPage.display(project);

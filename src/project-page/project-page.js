@@ -1,12 +1,14 @@
 import { homePage, createForm } from "../home-page/home";
-import { parse } from "date-fns";
 import { itemPage } from "../item-page/item-page";
 import { todoItem } from "../todoItem";
 export const projectPage = function(){
   function display(project){
     //remove all elements in the previous page
-    let root = document.querySelector("body .content");
-    root.remove();
+      let root = document.querySelector("body .content");
+      if (root)
+      {
+        root.remove();
+      }
     //add new page
     root = document.createElement('div');
     root.className = 'content';
@@ -19,15 +21,13 @@ export const projectPage = function(){
     editBtn.textContent = "Edit";
     editBtn.addEventListener('click', ()=>{
       if (!titleBox.checkValidity()){return;}
-      project.setProperties(titleBox.value);
-
       const dialog = document.createElement('dialog');
       dialog.className = 'dialog';
       const form = createForm();
       const inputs = form.querySelectorAll('input');
       inputs[0].value = project.name;
-      inputs[1].value = new Date(project.startDate);
-      inputs[2].value = new Date(project.dueDate);
+      inputs[1].value = project.startDate;
+      inputs[2].value = project.dueDate;
       dialog.appendChild(form);
       for (let i = 0; i < 2; i++)
       {
@@ -38,6 +38,7 @@ export const projectPage = function(){
         dialog.remove();
       })
       buttons[1].addEventListener('click', () => {
+        console.log(inputs[1].value);
         project.setProperties(inputs[0].value, inputs[1].value, inputs[2].value);
         homePage.update(project);
         dialog.remove();
