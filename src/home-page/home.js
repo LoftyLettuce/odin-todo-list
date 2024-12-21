@@ -37,11 +37,19 @@ catch(e)
 
 function displayProject(project){
     const container = document.createElement("div");
+    container.id = project.id;
     const title = document.createElement("h1");
     const closeBtn = document.createElement("button");
-    const p = document.createElement("p");
-    container.id = project.id;
-    p.textContent = "Days left: " + differenceInDays(project.dueDate, new Date());
+    const projectInfoDisplay = document.createElement("ul");
+    for (let i = 0; i < 3; i++)
+    {
+      const li = document.createElement("li");
+      projectInfoDisplay.appendChild(li);
+    }
+    const lines = Array.from(projectInfoDisplay.children);
+    lines[0].textContent = `Starting from: ${project.startDate}`;
+    lines[1].textContent = `End in: ${project.dueDate}`;
+    lines[2].textContent = "Days left: " + differenceInDays(project.startDate, project.dueDate);
     closeBtn.textContent = "x";
     closeBtn.addEventListener("click", function(e){
       container.remove();
@@ -60,8 +68,7 @@ function displayProject(project){
       projectPage.display(project);
     })
     title.textContent = project.name;
-    container.append(title, closeBtn, p);
-    console.log(`${project.name} : ${project.todoList}`);
+    container.append(title, closeBtn, projectInfoDisplay);
     return container;
 }
 function newInput(type, name, title, id, required, hasValue, value="")
@@ -83,6 +90,7 @@ function newInput(type, name, title, id, required, hasValue, value="")
 }
 function createForm(){
   const dialog = document.createElement("dialog");
+  dialog.className = 'dialog';
   const h1 = document.createElement("h1");
   const form = document.createElement("form");
   const fieldset = document.createElement("fieldset");

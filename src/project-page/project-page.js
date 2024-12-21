@@ -26,7 +26,8 @@ export const projectPage = function(){
     //display toDoItem
     function createContainer(itemInfo){
       let container = document.createElement('div');
-      container.textContent = `${itemInfo.title}: ${itemInfo.content}`;
+      let p = document.createElement('p');
+      p.textContent = `${itemInfo.title}: ${itemInfo.content}`;
       //add remove item
       const removeBtn = document.createElement('button');
       removeBtn.textContent = "remove";
@@ -35,14 +36,14 @@ export const projectPage = function(){
         container.remove();
         e.stopPropagation();
       })
-      container.appendChild(removeBtn);
+      container.append(p, removeBtn);
       return container;
     }
     function itemDisplay(item){
       const itemInfo = item.getContent();
       const container = createContainer(itemInfo)
       container.addEventListener("click", function(){
-        itemPage.display(item);
+        itemPage.display(item, container.querySelector('p'));
       })
       root.appendChild(container);
     }
