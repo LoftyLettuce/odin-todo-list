@@ -78,7 +78,7 @@ export const projectPage = function(){
     //add new item
     const addButton = document.createElement('button');
     addButton.addEventListener('click', ()=>{
-      itemPage.display(new todoItem({title:"", content:"", priority:"", parent: project, id: 0}));
+      itemPage.display(new todoItem({title:"", content:"", priority:-1, parent: project, id: 0}));
     })
     root.appendChild(addButton);
   }

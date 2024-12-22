@@ -1,5 +1,3 @@
-import {todoItem} from "./todoItem"
-import { addDays } from "date-fns";
 export class project {
   constructor(id, name, startDate, dueDate) {
     this.id = id;
@@ -19,6 +17,10 @@ export class project {
   }
   getStorageInfo(){
     return {name: this.name, startDate: this.startDate, dueDate: this.dueDate, toDoList: this.toDoList};
+  }
+  updateList(i, item){
+    this.toDoList[i] =  item;
+    this.saveToLocal();
   }
   setProperties(name, startDate, dueDate)
   {

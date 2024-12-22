@@ -185,7 +185,7 @@ function createDialog()
   form.append(addBtn, cancelBtn);
   return dialog;
 }
-export {createForm};
+export {createForm, newInput};
 export const homePage = function(){
   function display()
   {

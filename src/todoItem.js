@@ -21,7 +21,10 @@ export class todoItem
     return this.#completed;
   }
   setProperty(title = this.#title, content = this.#content, priority = this.#priority) {
-    this.#parent.toDoList[this.#id] = {title, content, priority, parent: this.#parent, id: this.#id};
+    this.#title = title;
+    this.#content = content;
+    this.#priority = priority;
+    this.#parent.updateList(this.#id, {title, content, priority, id: this.#id});
   }
   setCompleteStatus() {
     this.#completed = !this.#completed;
