@@ -14,13 +14,11 @@ export const projectPage = function(){
     root.className = 'content';
     document.querySelector('body').appendChild(root);
     //add edit button
-    const titleBox = document.createElement('input');
-    titleBox.value = project.name;
-    titleBox.required = true;
+    const title = document.createElement('h1');
+    title.textContent = project.name;
     const editBtn = document.createElement('button');
     editBtn.textContent = "Edit";
     editBtn.addEventListener('click', ()=>{
-      if (!titleBox.checkValidity()){return;}
       const dialog = document.createElement('dialog');
       dialog.className = 'dialog';
       const form = createForm();
@@ -31,7 +29,7 @@ export const projectPage = function(){
       dialog.appendChild(form);
       for (let i = 0; i < 2; i++)
       {
-        dialog.appendChild(document.createElement('button'));
+        form.appendChild(document.createElement('button'));
       }
       const buttons = dialog.querySelectorAll('button');
       buttons[0].addEventListener('click', () => {
@@ -46,7 +44,7 @@ export const projectPage = function(){
       root.appendChild(dialog);
       dialog.showModal();
     })
-    root.append(titleBox, editBtn);
+    root.append(title, editBtn);
     //display toDoItem
     function createContainer(itemInfo){
       let container = document.createElement('div');

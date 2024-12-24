@@ -3,6 +3,7 @@ import { add, differenceInDays, format } from "date-fns";
 import { project } from "../project";
 import { projectPage } from "../project-page/project-page"
 const projectList = new Array();
+let recentProject = null;
 let storageLength;
 try 
 {
@@ -32,12 +33,13 @@ catch(e)
       console.log(e);
     }
   }
-  localStorage.idGenerator = highestIdValue++;
+  localStorage.idGenerator = ++highestIdValue;
 })();
 
 function displayProject(project){
     const container = document.createElement("div");
     container.id = project.id;
+    container.classList.add("project");
     const title = document.createElement("h1");
     const closeBtn = document.createElement("button");
     const projectInfoDisplay = document.createElement("ul");
@@ -55,7 +57,6 @@ function displayProject(project){
       container.remove();
       //remove project from projectlist
       try{
-        console.log(project.id);
         localStorage.removeItem(project.id);
       }
       catch(e){
@@ -70,6 +71,12 @@ function displayProject(project){
       reset();
     })
     container.addEventListener("click", function(){
+      if (recentProject)
+      {
+        recentProject.classList.remove('focus');
+      }
+      recentProject = container;
+      container.classList.add('focus');
       projectPage.display(project);
     })
     title.textContent = project.name;
@@ -80,8 +87,10 @@ function newInput(type, name, title, id, required, hasValue, value="")
 {
   const label = document.createElement("label");
   const input = document.createElement("input");
+  const span = document.createElement("span");
   label.for = id;
-  label.textContent = title;
+  span.textContent = title;
+  span.classList.add("name");
   input.type = type;
   input.name = name;
   input.id = id;
@@ -90,7 +99,24 @@ function newInput(type, name, title, id, required, hasValue, value="")
   {
     input.value = value;
   }
-  label.appendChild(input);
+  if (type == "radio")
+  {
+    label.append(input, span);
+  }
+  else
+  {
+    label.append(span, input);
+  }
+  if (type == "date")
+  {
+    console.log(type);
+    const span = document.createElement('span');
+    span.addEventListener('click', ()=>{
+      input.showPicker();
+    })
+    span.classList.add("calendar-icon");
+    label.appendChild(span);
+  }
   return {label: label, input: input};
 }
 function createForm(){
@@ -104,7 +130,6 @@ function createForm(){
   dueDate.input.disabled = true;
   startDay.input.setAttribute('min', format(new Date(), 'yyyy-MM-dd'));
   startDay.input.addEventListener('input', ()=>{
-    console.log(startDay.input.value)
     if (startDay.input.value != null)
     {
       if (dueDate.input.value != null && new Date(startDay.input.value) > new Date(dueDate.input.value))
@@ -197,8 +222,12 @@ export const homePage = function(){
     const content = document.createElement('div');
     document.querySelector('body').appendChild(content);
     content.className = 'content';
-    const addBtn = document.createElement("button");
+    const welcome = document.createElement('h1');
+    welcome.textContent = 'WELCOME TO TODO LIST';
+    welcome.id = 'welcome';
+    content.appendChild(welcome);
     //add Add Button
+    const addBtn = document.createElement("button");
     addBtn.textContent = "Add";
     addBtn.addEventListener("click", function(){
       document.querySelector("dialog").showModal();
@@ -217,6 +246,7 @@ export const homePage = function(){
     lines[0].textContent = `Starting from: ${project.startDate}`;
     lines[1].textContent = `End in: ${project.dueDate}`;
     lines[2].textContent = "Days left: " + differenceInDays(project.dueDate, project.startDate);
+    projectElement.click();
   };
   return {display, update};
 }();

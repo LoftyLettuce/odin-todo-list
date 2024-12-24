@@ -1,12 +1,19 @@
+:root
+{
+  ---background-color: #bbf7d0;
+  ---color: #020617;
+  ---signify-color: #fda4af;
+  ---border-radius: 5px;
+}
 *
 {
   margin: 0;
   padding: 0;
   font-size: 26px;
   /* text-shadow: 0 0 5px #085959; */
-  background-color: black;
-  color: white;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* background-color: #020617; */
+  color: #bbf7d0;
+  font-family: Pixelify Sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 button
 {
@@ -17,7 +24,8 @@ body
 {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 2fr 5fr;
+  background: linear-gradient(to bottom, #020617, #052e16);
 }
 body>h1
 {
@@ -25,7 +33,7 @@ body>h1
 }
 body .home
 {
-  border: 1px solid black;
+  /* border-right: 2px solid #16a34a; */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -33,43 +41,81 @@ body .home
   padding: 2%;
   position: relative;
 }
-.home>div
+.project ,.project *
 {
-  border: 1px solid black;
+  background-color: var(---background-color);
+  color: var(---color);
+}
+.project
+{
   padding: 2%;
   display: grid;
-  grid-template-columns: 7fr 1fr;
+  grid-template-columns: 6fr 1fr;
+  border-radius: var(---border-radius);
 }
-.home>div>h1
+.focus, .focus *
+{
+  background-color: #052e16;
+  color: #dcfce7;
+}
+.focus
+{
+  border: 1px solid var(---background-color);
+}
+.project>h1
 {
   font-weight: normal;
   font-size: 1rem;
 }
-.home>div>p
+.project li
+{
+  list-style: none;
+}
+.project>p
 {
   color: black;
 }
-.home>div>button
+.project>button
 {
+  width: auto;
+  height: 100%;
+  background-color: var(---signify-color);
+  border-radius: var(---border-radius);
   grid-row: span 2;
   align-self: center;
   position: relative;
-  right: 0px;
+}
+.focus>button
+{
+  background-color: #e11d48;
+  border: 1px solid var(---background-color);
 }
 .home>button
 {
+  margin-top: 3%;
   width: auto;
+  height: 1.5em;
+  background-color: #dcfce7;
+  /* border: 5px solid #16a34a; */
+  color: #020617;
+  box-shadow: inset 0 0 5px #4ade80;
+  border-radius: var(---border-radius);
+  border: none;
+}
+.home>button:active
+{
+  background-color: #bbf7d0;
+  box-shadow: 0 0 20px #f0fdf4;
 }
 .dialog
 {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border: none;
-  border-radius: 10px;
-  width: 60%;
-  height: 70%;
+  border-radius: var(---border-radius);
+  width: auto;
+  height: 100vh;
+  background-color: #052e16;
+  padding: 3%;
 }
 .dialog>h1
 {
@@ -77,25 +123,55 @@ body .home
 }
 .dialog form
 {
-  padding: 10%;
+  padding: 3%;
   display: flex;
   flex-direction: column;
+  gap: 1em;
 }
 .dialog button
 {
-  background-color: white;
-  border: 1px solid black;
+  width: auto;
+  height: 1.5em;
+  color: #020617;
+  background-color: #dcfce7;
 }
 form>label
 {
-  margin-bottom: 5%;
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-form>label input
+form input[type="text"], form input[type="date"]
 {
-  width: 70%;
+  color: #020617;
+  width: 100%;
+  border: 2px solid #f8fafc;
+}
+form input[type="text"]:invalid, form input[type="date"]:invalid
+{
+  outline: 2px solid #e11d48;
+  border: none;
+}
+form input[type="text"]:valid, form input[type="date"]:valid
+{
+  background-color: #86efac;
+  box-shadow: 0 0 5px #4ade80;
+  border: none;
+}
+form input[type="radio"]:checked + .name
+{
+  color: #84cc16;
+}
+form .calendar-icon
+{
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  width: 30px;
+  height: 30px;
+  background-color: #e11d48;
 }
 form fieldset
 {
@@ -103,7 +179,6 @@ form fieldset
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 5%;
 }
 dialog::backdrop
 {
@@ -112,9 +187,25 @@ dialog::backdrop
 }
 fieldset>label
 {
-  margin: 5%;
+  margin: 3%;
 }
 fieldset input
 {
   margin-right: 5px;
+}
+.content #welcome
+{
+  width: auto;
+  height: 50%;
+  margin-top: 20%;
+  text-align: center;
+  font-size: clamp(20px, 10vw, 500px);
+  background-image: linear-gradient(to bottom, #bbf7d0, #f8fafc);
+  background-clip: text;
+  color: transparent;
+}
+.content h1
+{
+  text-align: center;
+  font-size: 10vh;
 }
