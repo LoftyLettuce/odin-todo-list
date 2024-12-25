@@ -16,8 +16,11 @@ export const projectPage = function(){
     //add edit button
     const title = document.createElement('h1');
     title.textContent = project.name;
+    const header = document.createElement('div');
+    header.className = 'header';
     const editBtn = document.createElement('button');
     editBtn.textContent = "Edit";
+    editBtn.className = 'edit';
     editBtn.addEventListener('click', ()=>{
       const dialog = document.createElement('dialog');
       dialog.className = 'dialog';
@@ -44,7 +47,8 @@ export const projectPage = function(){
       root.appendChild(dialog);
       dialog.showModal();
     })
-    root.append(title, editBtn);
+    header.append(title, editBtn);
+    root.append(header);
     //display toDoItem
     function createContainer(itemInfo){
       let container = document.createElement('div');
@@ -75,6 +79,8 @@ export const projectPage = function(){
     });
     //add new item
     const addButton = document.createElement('button');
+    addButton.className = 'add';
+    addButton.textContent = 'add';
     addButton.addEventListener('click', ()=>{
       itemPage.display(new todoItem({title:"", content:"", priority:-1, parent: project, id: 0}));
     })

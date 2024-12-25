@@ -112,7 +112,10 @@ function newInput(type, name, title, id, required, hasValue, value="")
     console.log(type);
     const span = document.createElement('span');
     span.addEventListener('click', ()=>{
-      input.showPicker();
+      if (!input.disabled)
+      {
+        input.showPicker();
+      }
     })
     span.classList.add("calendar-icon");
     label.appendChild(span);

@@ -9,12 +9,18 @@ export const itemPage = function(){
     const form = document.createElement("form");
     const fieldset = document.createElement("fieldset");
     const legend = document.createElement("legend");
+    const labelTitle = document.createElement("label");
+    labelTitle.textContent = "Name:";
     const titleBox = document.createElement('input');
+    labelTitle.appendChild(titleBox);
+    const labelContent = document.createElement("label");
+    labelContent.textContent = "Content:"
     const contentBox = document.createElement('input');
+    labelContent.appendChild(contentBox);
     titleBox.value = itemInfo.title;
     titleBox.required = true;
     contentBox.value = itemInfo.content;
-    form.append(titleBox, contentBox);
+    form.append(labelTitle, labelContent);
     legend.textContent = "Priority";
     fieldset.appendChild(legend);
     fieldset.appendChild(newInput("radio", "priority", "not that important", "notThatImportant", true, true, -1).label);

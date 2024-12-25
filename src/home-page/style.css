@@ -1,9 +1,11 @@
 :root
 {
-  ---background-color: #bbf7d0;
-  ---color: #020617;
-  ---signify-color: #fda4af;
+  ---background-color: #16a34a;
+  ---color: #e5e7eb;
+  ---signify-color: #fbbf24;
   ---border-radius: 5px;
+  ---font-color: #fbbf24;
+  ---addition-color: #020617;
 }
 *
 {
@@ -12,7 +14,7 @@
   font-size: 26px;
   /* text-shadow: 0 0 5px #085959; */
   /* background-color: #020617; */
-  color: #bbf7d0;
+  color: var(---color);
   font-family: Pixelify Sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 button
@@ -25,7 +27,8 @@ body
   min-height: 100vh;
   display: grid;
   grid-template-columns: 2fr 5fr;
-  background: linear-gradient(to bottom, #020617, #052e16);
+  background: linear-gradient(to bottom, var(---addition-color), var(---background-color));
+  background-size: 100% 100vh;
 }
 body>h1
 {
@@ -66,6 +69,8 @@ body .home
 {
   font-weight: normal;
   font-size: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .project li
 {
@@ -79,6 +84,7 @@ body .home
 {
   width: auto;
   height: 100%;
+  color: var(---addition-color);
   background-color: var(---signify-color);
   border-radius: var(---border-radius);
   grid-row: span 2;
@@ -95,10 +101,10 @@ body .home
   margin-top: 3%;
   width: auto;
   height: 1.5em;
-  background-color: #dcfce7;
+  background-color: var(---font-color);
   /* border: 5px solid #16a34a; */
-  color: #020617;
-  box-shadow: inset 0 0 5px #4ade80;
+  color: var(---color);
+  box-shadow: inset 0 0 5px var(---color);
   border-radius: var(---border-radius);
   border: none;
 }
@@ -114,8 +120,8 @@ body .home
   border-radius: var(---border-radius);
   width: auto;
   height: 100vh;
-  background-color: #052e16;
   padding: 3%;
+  background-color: var(---addition-color);
 }
 .dialog>h1
 {
@@ -132,36 +138,37 @@ body .home
 {
   width: auto;
   height: 1.5em;
-  color: #020617;
-  background-color: #dcfce7;
+  color: var(---addition-color);
+  background-color: var(---font-color);
 }
 form>label
 {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-between;
 }
 form input[type="text"], form input[type="date"]
 {
-  color: #020617;
+  color: var(---addition-color);
   width: 100%;
-  border: 2px solid #f8fafc;
+  border: 2px solid var(---color);
+  background-color: var(---color);
 }
 form input[type="text"]:invalid, form input[type="date"]:invalid
 {
-  outline: 2px solid #e11d48;
+  background-color: var(---font-color);
   border: none;
 }
 form input[type="text"]:valid, form input[type="date"]:valid
 {
-  background-color: #86efac;
-  box-shadow: 0 0 5px #4ade80;
+  background-color: var(---background-color);
+  box-shadow: 0 0 5px var(---background-color);
   border: none;
 }
 form input[type="radio"]:checked + .name
 {
-  color: #84cc16;
+  color: var(---background-color);
 }
 form .calendar-icon
 {
@@ -193,6 +200,13 @@ fieldset input
 {
   margin-right: 5px;
 }
+.content
+{
+  display: grid;
+  grid-template-areas:
+  "header"
+  "add-button";
+}
 .content #welcome
 {
   width: auto;
@@ -200,12 +214,32 @@ fieldset input
   margin-top: 20%;
   text-align: center;
   font-size: clamp(20px, 10vw, 500px);
-  background-image: linear-gradient(to bottom, #bbf7d0, #f8fafc);
+  background-image: linear-gradient(to bottom, var(---font-color), #f8fafc);
+  background-size: 100%;
   background-clip: text;
   color: transparent;
 }
-.content h1
+.content .header
 {
   text-align: center;
-  font-size: 10vh;
+  width: 100%;
+}
+.header h1, .header .edit
+{
+  display: inline-block;
+  font-size: clamp(1rem, 10vh, 100px);
+  height: fit-content;
+  width: fit-content;
+}
+.header h1
+{
+  width: 50%;
+  word-wrap: break-word;
+}
+.content .add
+{
+  grid-area: add-button;
+  justify-self: center;
+  width: 80%;
+  height: fit-content;
 }
