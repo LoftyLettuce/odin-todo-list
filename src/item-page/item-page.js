@@ -12,10 +12,12 @@ export const itemPage = function(){
     const labelTitle = document.createElement("label");
     labelTitle.textContent = "Name:";
     const titleBox = document.createElement('input');
+    titleBox.type = 'text';
     labelTitle.appendChild(titleBox);
     const labelContent = document.createElement("label");
     labelContent.textContent = "Content:"
     const contentBox = document.createElement('input');
+    contentBox.type = 'text';
     labelContent.appendChild(contentBox);
     titleBox.value = itemInfo.title;
     titleBox.required = true;
@@ -34,19 +36,33 @@ export const itemPage = function(){
     form.appendChild(fieldset);
     //back to project
     const backButton = document.createElement('button');
+    backButton.textContent = 'Cancel';
+    backButton.type = 'button';
     backButton.addEventListener('click', ()=>{
       root.remove();
     })
     //edit item
-    const editButton = document.createElement('button');
-    editButton.addEventListener('click', ()=>{
-      item.setProperty(titleBox.value, contentBox.value, document.querySelector('input[name="priority"]:checked').value);
-      htmlItem.textContent = `${titleBox.value}: ${contentBox.value}`;
-
-      root.remove();
-    })
+    let editButton;
+    if (htmlItem)
+    {
+      editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.type = 'button'
+      editButton.addEventListener('click', ()=>{
+        item.setProperty(titleBox.value, contentBox.value, document.querySelector('input[name="priority"]:checked').value);
+        htmlItem.textContent = `${titleBox.value}: ${contentBox.value}`;
+        htmlItem.className = document.querySelector('input[name="priority"]:checked').value;
+        root.remove();
+      })
+    }
+    else
+    {
+      editButton = undefined;
+    }
     //add new item
     const addButton = document.createElement('button');
+    addButton.textContent = 'Add';
+    addButton.type = 'button';
     addButton.addEventListener('click', ()=>{
       if (!titleBox.checkValidity()){return;}
       let parent = itemInfo.parent;
@@ -54,7 +70,14 @@ export const itemPage = function(){
       projectPage.display(itemInfo.parent);
       root.remove();
     })
-    form.append(backButton, editButton, addButton);
+    if (editButton)
+    {
+      form.append(backButton, editButton, addButton);
+    }
+    else
+    {
+      form.append(backButton, addButton);
+    }
     root.appendChild(form);
     document.querySelector('body').appendChild(root);
     root.showModal();

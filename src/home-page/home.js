@@ -66,7 +66,10 @@ function displayProject(project){
       e.stopPropagation();
       function reset(){
         let root = document.querySelector("body .content");
-        root.remove();
+        if (root)
+        {
+          root.remove();
+        }
       }
       reset();
     })
@@ -111,6 +114,7 @@ function newInput(type, name, title, id, required, hasValue, value="")
   {
     console.log(type);
     const span = document.createElement('span');
+    span.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>calendar-month</title><path d="M9,10V12H7V10H9M13,10V12H11V10H13M17,10V12H15V10H17M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H6V1H8V3H16V1H18V3H19M19,19V8H5V19H19M9,14V16H7V14H9M13,14V16H11V14H13M17,14V16H15V14H17Z" /></svg>';
     span.addEventListener('click', ()=>{
       if (!input.disabled)
       {
@@ -124,8 +128,6 @@ function newInput(type, name, title, id, required, hasValue, value="")
 }
 function createForm(){
   const form = document.createElement("form");
-  const fieldset = document.createElement("fieldset");
-  const legend = document.createElement("legend");
   form.method = "dialog";
   form.appendChild(newInput("text", "Name", "Name: ", "name", true, false).label);
   const startDay = newInput("date", "start", "Day start: ", "start", true, false);
@@ -139,7 +141,7 @@ function createForm(){
       {  
         dueDate.input.value = null;
       }
-      else if (dueDate.input.disabled)
+      else if (startDay.input.checkValidity())
       {
         dueDate.input.setAttribute('min', startDay.input.value);
         dueDate.input.disabled = false;
@@ -153,12 +155,6 @@ function createForm(){
   })
   form.appendChild(startDay.label);
   form.appendChild(dueDate.label);
-  form.appendChild(fieldset);
-  legend.textContent = "Priority";
-  fieldset.appendChild(legend);
-  fieldset.appendChild(newInput("radio", "priority", "super important", "superImportant", true, true, 1).label);
-  fieldset.appendChild(newInput("radio", "priority", "important", "important", true, true, 0).label);
-  fieldset.appendChild(newInput("radio", "priority", "not that important", "notThatImportant", true, true, -1).label);
   return form;
 }
 function createDialog()
@@ -188,7 +184,6 @@ function createDialog()
     const today = new Date();
     const root = document.querySelector("div[class='home']");
     const inputList = dialog.querySelectorAll("input");
-    const priority = document.querySelector("input[name='priority']:checked");
     const nameProject = inputList[0].value, startDateValue  = inputList[1].value, dueDateValue = inputList[2].value;
     //Check date validity
     if (dueDateValue < today || startDateValue < today) {return;} 
@@ -202,7 +197,6 @@ function createDialog()
     catch(e) {
       console.log(e);
     }
-    priority.checked = false;
     // reset
     inputList.forEach(function(input){
       input.value = null;

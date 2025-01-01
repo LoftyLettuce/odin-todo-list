@@ -24,11 +24,10 @@ button
 }
 body
 {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 2fr 5fr;
   background: linear-gradient(to bottom, var(---addition-color), var(---background-color));
-  background-size: 100% 100vh;
 }
 body>h1
 {
@@ -43,6 +42,8 @@ body .home
   gap: 2%;
   padding: 2%;
   position: relative;
+  overflow: scroll;
+  height: 98%;
 }
 .project ,.project *
 {
@@ -51,6 +52,8 @@ body .home
 }
 .project
 {
+  flex: 0 0 150px;
+  box-shadow: 0 0 10px var(---addition-color);
   padding: 2%;
   display: grid;
   grid-template-columns: 6fr 1fr;
@@ -63,7 +66,8 @@ body .home
 }
 .focus
 {
-  border: 1px solid var(---background-color);
+  outline: 1px solid var(---background-color);
+  border: none;
 }
 .project>h1
 {
@@ -94,7 +98,8 @@ body .home
 .focus>button
 {
   background-color: #e11d48;
-  border: 1px solid var(---background-color);
+  outline: 1px solid var(---background-color);
+  border: none;
 }
 .home>button
 {
@@ -150,6 +155,7 @@ form>label
 }
 form input[type="text"], form input[type="date"]
 {
+  padding: 3px;
   color: var(---addition-color);
   width: 100%;
   border: 2px solid var(---color);
@@ -178,7 +184,15 @@ form .calendar-icon
   bottom: 2px;
   width: 30px;
   height: 30px;
-  background-color: #e11d48;
+  background-color: var(---font-color);
+}
+form input[type="date"]:disabled+.calendar-icon
+{
+  background-color: var(---color);
+}
+form input[type="date"]:valid+.calendar-icon
+{
+  background-color: var(---background-color);
 }
 form fieldset
 {
@@ -202,10 +216,10 @@ fieldset input
 }
 .content
 {
-  display: grid;
-  grid-template-areas:
-  "header"
-  "add-button";
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  height: 100%;
 }
 .content #welcome
 {
@@ -221,25 +235,76 @@ fieldset input
 }
 .content .header
 {
+  align-self: center;
+  font-size: clamp(1rem, 10vh, 100px);
+  position: relative;
   text-align: center;
-  width: 100%;
+  margin: 1em 0;
 }
 .header h1, .header .edit
 {
+  font-size: inherit;
   display: inline-block;
-  font-size: clamp(1rem, 10vh, 100px);
   height: fit-content;
   width: fit-content;
 }
 .header h1
 {
-  width: 50%;
   word-wrap: break-word;
+}
+.header .edit
+{
+  position: absolute;
+  right: -1em;
+  width: 1em;
+  height: 1em;
+  background: none;
+  border: none;
+}
+.edit svg
+{
+  fill: var(---font-color)
 }
 .content .add
 {
-  grid-area: add-button;
+  position: absolute;
+  height: 1.5em;
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ctitle%3Eplus-thick%3C%2Ftitle%3E%3Cpath%20d%3D%22M20%2014H14V20H10V14H4V10H10V4H14V10H20V14Z%22%2F%3E%3C%2Fsvg%3E');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   justify-self: center;
+  width: 1.5em;
+  background-color: var(---font-color);
+  bottom: -1.5em;
+  left: 50%;
+}
+.item
+{
+  display: flex;
+  align-items: center;
+  margin-left: 10%;
+  border: var(---background-color) 2px solid;
   width: 80%;
-  height: fit-content;
+  border-radius: 10px;
+}
+.item button
+{
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ctitle%3Echeck%3C%2Ftitle%3E%3Cpath%20d%3D%22M21%2C7L9%2C19L3.5%2C13.5L4.91%2C12.09L9%2C16.17L19.59%2C5.59L21%2C7Z%22%2F%3E%3C%2Fsvg%3E');
+  height: 0.8em;
+  margin: 0 5px;
+  border-radius: 10px;
+  border: none;
+}
+.\3-1
+{
+  color: var(---color);
+}
+.\30
+{
+  color: var(---font-color);
+}
+.\31
+{
+  color: #e11d48;
 }
