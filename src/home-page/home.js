@@ -49,9 +49,14 @@ function displayProject(project){
       projectInfoDisplay.appendChild(li);
     }
     const lines = Array.from(projectInfoDisplay.children);
+    let today = project.startDate;
+    if (differenceInDays(new Date(), project.startDate) < 0)
+    {
+      today = new Date();
+    }
     lines[0].textContent = `Starting from: ${project.startDate}`;
     lines[1].textContent = `End in: ${project.dueDate}`;
-    lines[2].textContent = "Days left: " + differenceInDays(project.dueDate, project.startDate);
+    lines[2].textContent = "Days left: " + differenceInDays(project.dueDate, today);
     closeBtn.textContent = "x";
     closeBtn.addEventListener("click", function(e){
       container.remove();
